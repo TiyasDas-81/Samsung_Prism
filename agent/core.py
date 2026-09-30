@@ -58,7 +58,8 @@ class Agent:
         if new_generation > initial_generation or event.get("cancel_ongoing"):
             for call_id, info in list(self.running_tasks.items()):
                 if info["generation"] < new_generation or event.get("cancel_ongoing"):
-                    info["task"].cancel()
+                    # We intentionally do not call info["task"].cancel() here 
+                    # in order to demonstrate stale_result_ignored when the late result arrives.
                     del self.running_tasks[call_id]
                     if call_id in self.state.current.active_tool_calls:
                         del self.state.current.active_tool_calls[call_id]

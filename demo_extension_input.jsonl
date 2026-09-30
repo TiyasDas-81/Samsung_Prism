@@ -1,0 +1,2 @@
+{"type": "user_input", "intent": "navigate", "slots": {"destination": "Chennai Central"}, "tool": "navigate"}
+{"type": "interruption", "intent": "navigate", "slots": {"destination": "VIT Vellore"}, "tool": "navigate"}

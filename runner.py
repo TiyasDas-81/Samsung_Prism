@@ -69,6 +69,10 @@ async def process_event_stream():
     writer_task = asyncio.create_task(event_writer())
     
     await reader_task
+    # Wait for background tasks to complete
+    if agent.running_tasks:
+        tasks = [info["task"] for info in agent.running_tasks.values()]
+        await asyncio.gather(*tasks, return_exceptions=True)
     # Allow some time for final events to flush
     await asyncio.sleep(0.1)
     writer_task.cancel()

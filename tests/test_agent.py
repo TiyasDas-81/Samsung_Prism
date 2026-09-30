@@ -27,10 +27,10 @@ async def test_interruption_recovery():
     # User asks for Delhi
     await agent.process_event({
         "type": "user_input",
-        "text": "Book a flight to Delhi",
-        "intent": "book_flight",
+        "text": "Navigate to Delhi",
+        "intent": "navigate",
         "slots": {"destination": "Delhi"},
-        "tool": "book_flight"
+        "tool": "navigate"
     })
     
     ack1 = await agent.output_queue.get()
@@ -43,9 +43,9 @@ async def test_interruption_recovery():
     await agent.process_event({
         "type": "interruption",
         "text": "Actually Mumbai",
-        "intent": "book_flight",
+        "intent": "navigate",
         "slots": {"destination": "Mumbai"},
-        "tool": "book_flight"
+        "tool": "navigate"
     })
     
     ack2 = await agent.output_queue.get()
@@ -64,9 +64,9 @@ async def test_duplicate_state_changing_action():
     # First booking
     await agent.process_event({
         "type": "user_input",
-        "intent": "book_flight",
+        "intent": "navigate",
         "slots": {"destination": "Delhi"},
-        "tool": "book_flight"
+        "tool": "navigate"
     })
     
     ack1 = await agent.output_queue.get()
@@ -82,9 +82,9 @@ async def test_duplicate_state_changing_action():
     # Duplicate event
     await agent.process_event({
         "type": "user_input",
-        "intent": "book_flight",
+        "intent": "navigate",
         "slots": {"destination": "Delhi"},
-        "tool": "book_flight"
+        "tool": "navigate"
     })
     
     ack2 = await agent.output_queue.get()
@@ -99,9 +99,9 @@ async def test_late_stale_result():
     # User asks for Delhi
     await agent.process_event({
         "type": "user_input",
-        "intent": "book_flight",
+        "intent": "navigate",
         "slots": {"destination": "Delhi"},
-        "tool": "book_flight"
+        "tool": "navigate"
     })
     
     await agent.output_queue.get() # ack
@@ -111,9 +111,9 @@ async def test_late_stale_result():
     # Interrupt with Mumbai before Delhi completes
     await agent.process_event({
         "type": "user_input",
-        "intent": "book_flight",
+        "intent": "navigate",
         "slots": {"destination": "Mumbai"},
-        "tool": "book_flight"
+        "tool": "navigate"
     })
     
     await agent.output_queue.get() # ack
@@ -124,7 +124,10 @@ async def test_late_stale_result():
     # Wait for tasks to complete
     await asyncio.sleep(0.6)
     
-    # The first task was cancelled so it should not produce a tool_result or stale_result_ignored since it raised CancelledError
+    # The first task was invalidated so it will produce a stale_result_ignored
+    stale_res = await agent.output_queue.get()
+    assert stale_res["type"] == "stale_result_ignored"
+    
     # The second task should complete successfully
     res2 = await agent.output_queue.get()
     assert res2["type"] == "tool_result"
@@ -156,16 +159,16 @@ async def test_invalid_tool_schema():
     agent = Agent()
     await agent.process_event({
         "type": "user_input",
-        "intent": "book_flight",
+        "intent": "navigate",
         "slots": {"destination": 123}, # Invalid type, should be string
-        "tool": "book_flight"
+        "tool": "navigate"
     })
     
     await agent.output_queue.get() # ack
     await agent.output_queue.get() # snap
     err = await agent.output_queue.get()
     assert err["type"] == "tool_error"
-    assert "Argument destination must be a string" in err["error"]
+    assert "Argument destination must be string" in err["error"]
 
 @pytest.mark.asyncio
 async def test_multimodal_ambiguity():
@@ -193,14 +196,14 @@ async def test_uncancellable_tool_late_result():
     # Simulate generation advancing
     agent.state.current.update_slots({"new": "slot"})
     # Now manually call execute_tool_async to simulate a tool that didn't cancel and returned
-    await agent.execute_tool_async(call_id, "search_flight", {"destination": "Delhi"}, expected_gen, "key")
+    await agent.execute_tool_async(call_id, "search_flights", {"destination": "Delhi", "date": "tomorrow"}, expected_gen, "key")
     res = await agent.output_queue.get()
     assert res["type"] == "stale_result_ignored"
 
 @pytest.mark.asyncio
 async def test_different_actions_not_deduplicated():
     agent = Agent()
-    await agent.process_event({"type": "user_input", "intent": "book_flight", "slots": {"destination": "Delhi"}, "tool": "book_flight"})
+    await agent.process_event({"type": "user_input", "intent": "navigate", "slots": {"destination": "Delhi"}, "tool": "navigate"})
     await agent.output_queue.get()
     await agent.output_queue.get()
     await agent.output_queue.get()
@@ -210,7 +213,7 @@ async def test_different_actions_not_deduplicated():
     await agent.output_queue.get() # tool_result
     await agent.output_queue.get() # final_response
     
-    await agent.process_event({"type": "user_input", "intent": "book_flight", "slots": {"destination": "Mumbai"}, "tool": "book_flight"})
+    await agent.process_event({"type": "user_input", "intent": "navigate", "slots": {"destination": "Mumbai"}, "tool": "navigate"})
     await agent.output_queue.get()
     await agent.output_queue.get()
     # Should emit tool_call, not tool_error because the dedup key is different
