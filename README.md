@@ -53,8 +53,15 @@ python reproduce.py
 
 ## Benchmark Use Case (FDB-v3)
 The core benchmark trace involves booking a train (Delhi → Mumbai) and interrupting to (Mumbai → Bangalore). The system emits structured JSON protocol events mapping generation changes and rejecting stale data.
-*NOTE: The full FDB-v3 benchmark is currently in progress. The single-sample end-to-end validation has been successfully completed with 100% tool selection and argument accuracy.*
-**Demo Video:** [Demo Video Link](https://www.youtube.com/watch?v=dQw4w9WgXcQ) *(Placeholder)*
+
+**Actual Benchmark Results (Partial due to Groq rate limits, 30 scenarios processed):**
+- **Tool Selection Accuracy**: 77.3%
+- **Argument Accuracy**: 47.0%
+- **Strict Pass Rate**: 33.3%
+- **Response Quality / Latency Metrics**: Could not be fully evaluated locally as it requires `OPENAI_API_KEY`/`GPT-4o`, which was intentionally excluded.
+- **Failures**: 20/30 failed due to wrong tools/arguments, heavily influenced by the fallback open-weight model (`qwen/qwen3.8-27b` hitting limits).
+
+**Demo Video:** No demo video available.
 
 ## Extension Use Case: In-Car Destination Change Assistant
 We built an end-to-end practical extension: **In-Car Destination Change Assistant**.
