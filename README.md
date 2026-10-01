@@ -37,13 +37,25 @@ To run the benchmark and agent, install the exact dependencies:
 pip install -r requirements.txt
 ```
 
-### Environment Variables
+### Setup Requirements
+1. **LiveKit**: Create a project at [LiveKit Cloud](https://cloud.livekit.io/) and generate API keys.
+2. **Groq**: Obtain a free API key from [Groq Console](https://console.groq.com/).
+3. **ElevenLabs**: Obtain a free API key from [ElevenLabs](https://elevenlabs.io/).
+
 You must set the following environment variables before running:
 - `LIVEKIT_URL`
 - `LIVEKIT_API_KEY`
 - `LIVEKIT_API_SECRET`
 - `GROQ_API_KEY`
 - `ELEVEN_API_KEY`
+
+### FDB-v3 Data Placement
+To run the evaluation, you must manually download the FDB-v3 audio dataset and place the extracted `fdb_v3_data_released` directory inside the adjacent `../Full-Duplex-Bench/v3/` folder. The `reproduce.py` script will alert you if this is missing.
+
+### CPU Compatibility & Environment Modifications
+- **Python Version**: Python 3.11 is strictly recommended.
+- **CPU Fallback**: The FDB benchmark evaluation framework (`nemo_toolkit`) natively attempts CUDA execution. We have successfully verified execution on CPU-only machines by explicitly falling back to CPU decoding where CUDA is unavailable.
+- **Nemo Hotfix**: On some Python 3.11 + Windows installations, the `nemo_toolkit` library (`nemo/utils/tar_utils.py`) requires a manual removal of the `filter="data"` argument in `tarfile.extractall()` if it throws a TypeError.
 
 ## Running the Reproduction Script
 A 1-command reproduction script is provided. It verifies the environment, attempts to run the FDB-v3 benchmark, and starts the LiveKit Voice Agent:
