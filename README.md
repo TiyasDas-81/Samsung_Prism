@@ -73,6 +73,11 @@ The core benchmark trace involves booking a train (Delhi → Mumbai) and interru
 - **Response Quality / Latency Metrics**: Could not be fully evaluated locally as it requires `OPENAI_API_KEY`/`GPT-4o`, which was intentionally excluded.
 - **Failures**: 20/30 failed due to wrong tools/arguments, heavily influenced by the fallback open-weight model (`qwen/qwen3.8-27b` hitting limits).
 
+## Presentation
+
+The final presentation is available in:
+presentation/Samsung_PRISM_Theme05.pptx
+
 ## Demo Video
 **Samsung PRISM Theme 05 Demo Video**
 
