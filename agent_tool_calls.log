@@ -1,0 +1,2 @@
+{"call": {"function": "track_order", "args": {"order_id": "ABC123"}, "timestamp_start": 1790790306.0336082, "timestamp_end": 1790790306.2149563}}
+{"call": {"function": "track_order", "args": {"order_id": "ABC123"}, "timestamp_start": 1790790721.2012582, "timestamp_end": 1790790721.3910809}}

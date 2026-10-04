@@ -1,0 +1,2 @@
+{"type": "user_input", "intent": "book_train", "slots": {"origin": "Delhi", "destination": "Mumbai"}, "tool": "book_train"}
+{"type": "interruption", "intent": "book_train", "slots": {"origin": "Mumbai", "destination": "Bangalore"}, "tool": "book_train"}
