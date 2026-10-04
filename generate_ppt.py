@@ -70,7 +70,7 @@ def main():
     shape.line.color.rgb = accent_blue
     shape.line.width = Pt(1)
     
-    add_textbox(slide1, Inches(1.1), Inches(5.0), Inches(3.3), Inches(0.3), "TEAM", Pt(14), True, accent_cyan, font_name="Segoe UI")
+    add_textbox(slide1, Inches(1.1), Inches(5.0), Inches(3.3), Inches(0.3), "KKR - Kolkata Kode Riders", Pt(14), True, accent_cyan, font_name="Segoe UI")
     add_textbox(slide1, Inches(1.1), Inches(5.3), Inches(3.3), Inches(0.3), "Arhit Basu — Leader", Pt(14), True, text_light, font_name="Segoe UI")
     add_textbox(slide1, Inches(1.1), Inches(5.6), Inches(3.3), Inches(0.8), "Tiyas Das\nSubarta Ghosh\nSoumen Mondal", Pt(13), False, text_light, font_name="Segoe UI")
     
@@ -321,7 +321,7 @@ def main():
                 
     # Team Footer
     add_textbox(slide8, Inches(1), Inches(5.8), Inches(11.33), Inches(0.4), 
-                "Team: Arhit Basu (Leader) • Tiyas Das • Subarta Ghosh • Soumen Mondal", Pt(14), False, text_light, PP_ALIGN.CENTER, font_name="Segoe UI")
+                "KKR - Kolkata Kode Riders: Arhit Basu (Leader) • Tiyas Das • Subarta Ghosh • Soumen Mondal", Pt(14), False, text_light, PP_ALIGN.CENTER, font_name="Segoe UI")
     
     # AI Disclosure / Repos
     add_textbox(slide8, Inches(1), Inches(6.4), Inches(11.33), Inches(0.8), 

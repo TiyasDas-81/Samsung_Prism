@@ -73,8 +73,11 @@ The core benchmark trace involves booking a train (Delhi → Mumbai) and interru
 - **Response Quality / Latency Metrics**: Could not be fully evaluated locally as it requires `OPENAI_API_KEY`/`GPT-4o`, which was intentionally excluded.
 - **Failures**: 20/30 failed due to wrong tools/arguments, heavily influenced by the fallback open-weight model (`qwen/qwen3.8-27b` hitting limits).
 
-**Demo Video:** No demo video available.
+## Demo Video
+**Samsung PRISM Theme 05 Demo Video**
 
+Google Drive:
+https://drive.google.com/file/d/1ac-vMTNtxWv0EQ23cXAe0jKAOL8omMqS/view?usp=sharing
 ## Extension Use Case: In-Car Destination Change Assistant
 We built an end-to-end practical extension: **In-Car Destination Change Assistant**.
 - User says: *"Navigate to Chennai Central."*
